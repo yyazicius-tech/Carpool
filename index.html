@@ -157,9 +157,9 @@ const PIN = "1453";
     try{ await col.add({num:v, ts:Date.now()}); $('num').value=''; }
     catch(e){ m.textContent='Could not add. Please try again.'; }
     busy=false;
+    setTimeout(function(){ $('num').focus(); }, 0);
   }
-  $('add').onmousedown=function(e){e.preventDefault();};
-  $('add').onclick=function(){$('num').focus();add();};
+  $('add').onclick=function(){add();};
   $('num').onkeydown=function(e){if(e.key==='Enter')add();};
   $('num').oninput=function(){this.value=this.value.replace(/\D/g,'').slice(0,3); $('msg').textContent='';};
 
