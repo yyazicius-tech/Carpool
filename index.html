@@ -156,11 +156,11 @@ const PIN = "1453";
     if(!/^\d{3}$/.test(v)){m.textContent='Enter a 3-digit number.';return;}
     if(items.some(function(i){return i.num===v})){m.textContent=v+' is already in the queue.';return;}
     $('num').value='';
-    col.add({num:v, ts:Date.now()}).catch(function(){
+        col.add({num:v, ts:Date.now()}).catch(function(){
       m.textContent='Could not add '+v+'. Check the connection and try again.';
     });
+    $('num').focus();
   }
-
 
   $('add').onclick=function(){add();};
   $('num').onkeydown=function(e){if(e.key==='Enter')add();};
