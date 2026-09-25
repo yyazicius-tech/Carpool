@@ -150,17 +150,18 @@ const PIN = "1453";
   $('upto').onclick=function(){ if(sel>=0) del(items.slice(0,sel+1)); };
   $('one').onclick=function(){ if(sel>=0) del([items[sel]]); };
 
-  var busy=false;
-  async function add(){
-    if(busy||!col) return;
+    function add(){
+    if(!col) return;
     var v=$('num').value.trim(), m=$('msg'); m.textContent='';
     if(!/^\d{3}$/.test(v)){m.textContent='Enter a 3-digit number.';return;}
     if(items.some(function(i){return i.num===v})){m.textContent=v+' is already in the queue.';return;}
-    busy=true;
-    try{ await col.add({num:v, ts:Date.now()}); $('num').value=''; }
-        catch(e){ m.textContent='Could not add. Please try again.'; }
-    busy=false;
+    $('num').value='';
+    col.add({num:v, ts:Date.now()}).catch(function(){
+      m.textContent='Could not add '+v+'. Check the connection and try again.';
+    });
   }
+
+
   $('add').onclick=function(){add();};
   $('num').onkeydown=function(e){if(e.key==='Enter')add();};
   $('num').oninput=function(){this.value=this.value.replace(/\D/g,'').slice(0,3); $('msg').textContent='';};
